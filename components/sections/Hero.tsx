@@ -117,19 +117,19 @@ export default function Hero() {
       {/* MAIN CONTENT - Split 45% / 55% */}
       <div className="relative z-10 h-full flex">
         
-        {/* LEFT SIDE - 40% - Image femme plus petite et élégante */}
-        <div className="w-[40%] h-full relative flex items-end justify-center">
+        {/* LEFT SIDE - 45% - Image femme ancrée au bas, alignée avec cartes */}
+        <div className="w-[45%] h-full relative flex items-end justify-end pr-4">
           <motion.div
             style={{ x: mousePosition.x * -0.2 }}
-            className="absolute inset-0 flex items-end justify-center pb-[5%]"
+            className="absolute inset-0 flex items-end justify-end"
           >
-            <div className="relative w-[85%] h-[70%]">
+            <div className="relative w-[95%] h-[88%]">
               <Image
                 src="/images/New hero2.png"
                 alt="Femme avec un sourire éclatant"
                 fill
                 className="object-contain object-bottom"
-                style={{ objectPosition: 'center 30%' }}
+                style={{ objectPosition: 'center 20%' }}
                 priority
                 quality={95}
               />
@@ -137,11 +137,11 @@ export default function Hero() {
           </motion.div>
 
           {/* Glow subtil derrière la femme */}
-          <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[250px] h-[200px] bg-[#3DB7FF]/15 blur-[80px] rounded-full pointer-events-none" />
+          <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[280px] h-[250px] bg-[#3DB7FF]/15 blur-[80px] rounded-full pointer-events-none" />
         </div>
 
-        {/* RIGHT SIDE - 60% - Carousel 3D + CTA centrés */}
-        <div className="w-[60%] h-full flex flex-col justify-center items-center px-8 lg:px-12">
+        {/* RIGHT SIDE - 55% - Carousel 3D + CTA centrés */}
+        <div className="w-[55%] h-full flex flex-col justify-center items-center px-6 lg:px-10">
           
           {/* CAROUSEL 3D - Centré */}
           <div className="relative h-[360px] w-full max-w-[500px] mb-3" style={{ perspective: '1000px' }}>
