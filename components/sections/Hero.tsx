@@ -117,19 +117,19 @@ export default function Hero() {
       {/* MAIN CONTENT - Split 45% / 55% */}
       <div className="relative z-10 h-full flex">
         
-        {/* LEFT SIDE - 45% - Image lifestyle zoomée sur visage */}
-        <div className="w-[45%] h-full relative flex items-end justify-center">
+        {/* LEFT SIDE - 45% - Image lifestyle redimensionnée et alignée */}
+        <div className="w-[45%] h-full relative flex items-end justify-center pt-[15%]">
           <motion.div
             style={{ x: mousePosition.x * -0.3 }}
-            className="absolute inset-0 flex items-end justify-center"
+            className="absolute inset-0 flex items-start justify-center pt-[12%]"
           >
-            <div className="relative w-[110%] h-[95%] -ml-[5%]">
+            <div className="relative w-[100%] h-[82%]">
               <Image
                 src="/images/New hero2.png"
                 alt="Femme avec un sourire éclatant"
                 fill
                 className="object-cover object-top"
-                style={{ objectPosition: 'center 15%' }}
+                style={{ objectPosition: 'center 12%' }}
                 priority
                 quality={95}
               />
@@ -138,14 +138,14 @@ export default function Hero() {
 
           {/* Glow subtil + accent rouge discret */}
           <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[300px] h-[150px] bg-[#3DB7FF]/20 blur-[60px] rounded-full pointer-events-none" />
-          <div className="absolute top-[10%] right-[10%] w-[80px] h-[80px] bg-[#E53935]/10 blur-[40px] rounded-full pointer-events-none" />
+          <div className="absolute top-[20%] right-[15%] w-[80px] h-[80px] bg-[#E53935]/10 blur-[40px] rounded-full pointer-events-none" />
         </div>
 
-        {/* RIGHT SIDE - 55% - Carousel 3D + CTA rapprochés */}
-        <div className="w-[55%] h-full flex flex-col justify-center px-8 lg:px-12 -mt-4">
+        {/* RIGHT SIDE - 55% - Carousel 3D + CTA centrés */}
+        <div className="w-[55%] h-full flex flex-col justify-center items-center px-8 lg:px-12">
           
-          {/* CAROUSEL 3D - Structure Bom Dia */}
-          <div className="relative h-[360px] mb-4" style={{ perspective: '1000px' }}>
+          {/* CAROUSEL 3D - Centré */}
+          <div className="relative h-[360px] w-full max-w-[500px] mb-3" style={{ perspective: '1000px' }}>
             <div className="absolute inset-0 flex items-center justify-center">
               {products.map((product, index) => {
                 const style = getSlideStyle(index)
@@ -233,7 +233,7 @@ export default function Hero() {
           </div>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mb-5">
+          <div className="flex justify-center gap-2 mb-3">
             {products.map((_, index) => (
               <button
                 key={index}
@@ -247,12 +247,12 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* CTA CARD - Sous le carousel, remontée et élargie */}
+          {/* CTA CARD - Sous le carousel, centrée */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-white/60 max-w-[450px]"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-white/60 w-full max-w-[450px] mx-auto"
             style={{ borderLeft: '3px solid #D71920' }}
           >
             {/* Badge avec accent rouge */}
