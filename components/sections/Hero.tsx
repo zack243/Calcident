@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Sparkles, Play, Star } from 'lucide-react'
+import { ArrowRight, Sparkles, Play } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -22,39 +23,48 @@ export default function Hero() {
   return (
     <section id="accueil" className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#1A78C8] via-[#3159B7] to-[#1A78C8]">
       
+      {/* Background Image Layer */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/Fond hero.png"
+          alt=""
+          fill
+          className="object-cover object-center opacity-40"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1A78C8]/90 via-[#3159B7]/80 to-[#1A78C8]/70" />
+      </div>
+
       {/* Animated Gradient Orbs */}
       <motion.div
         animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-10 w-[600px] h-[600px] bg-[#3DB7FF]/30 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-20 left-10 w-[600px] h-[600px] bg-[#3DB7FF]/30 rounded-full blur-[120px] pointer-events-none z-10"
       />
       <motion.div
         animate={{ x: [0, -30, 0], y: [0, 20, 0], scale: [1, 1.2, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-[#3DB7FF]/20 rounded-full blur-[100px] pointer-events-none"
-      />
-      <motion.div
-        animate={{ x: [0, 20, 0], y: [0, -30, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-white/10 rounded-full blur-[80px] pointer-events-none"
+        className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-[#3DB7FF]/20 rounded-full blur-[100px] pointer-events-none z-10"
       />
 
-      {/* Floating Elements */}
+      {/* Floating Water Splash - Right side */}
       <motion.div
-        style={{ x: mousePosition.x * 2, y: mousePosition.y * 2 }}
-        animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
+        style={{ x: mousePosition.x * 1.5, y: mousePosition.y * 1.5 }}
+        animate={{ rotate: [0, 5, -5, 0], scale: [1, 1.05, 1] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[15%] right-[10%] w-32 h-32 bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 hidden lg:block"
-      />
-      <motion.div
-        style={{ x: mousePosition.x * -1.5, y: mousePosition.y * -1.5 }}
-        animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[20%] left-[5%] w-24 h-24 bg-[#3DB7FF]/30 backdrop-blur-xl rounded-full hidden lg:block"
-      />
+        className="absolute top-[10%] right-[5%] w-[250px] h-[250px] z-20 pointer-events-none hidden lg:block"
+      >
+        <Image
+          src="/images/eclaboussure.png"
+          alt=""
+          width={250}
+          height={250}
+          className="object-contain opacity-80 mix-blend-screen"
+        />
+      </motion.div>
 
-      {/* Main Content */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 pt-32 lg:pt-40 pb-20">
+      {/* Main Content Container */}
+      <div className="relative z-30 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 pt-32 lg:pt-40 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-200px)]">
           
           {/* Left Content */}
@@ -117,7 +127,7 @@ export default function Hero() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   className="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-md rounded-full border border-white/30 text-white text-sm font-medium"
                 >
-                  <Star className="w-4 h-4 text-[#3DB7FF] fill-[#3DB7FF]" />
+                  <Sparkles className="w-4 h-4 text-[#3DB7FF]" />
                   {item.text}
                 </motion.div>
               ))}
@@ -173,89 +183,89 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right - Visual */}
+          {/* Right - Hero Image with Woman and Products */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[400px] lg:h-[500px] hidden lg:block"
+            className="relative h-[500px] lg:h-[600px] hidden lg:block"
           >
-            {/* Central Glow */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="w-[300px] h-[300px] bg-[#3DB7FF]/40 rounded-full blur-[60px]"
-              />
-            </div>
-
-            {/* Product Cards Stack */}
+            {/* Main Hero Image - Woman */}
             <motion.div
               style={{ x: mousePosition.x * -0.5, y: mousePosition.y * -0.5 }}
-              className="absolute inset-0 flex items-center justify-center"
+              className="absolute inset-0 z-20 flex items-end justify-center"
             >
-              {/* Card 1 */}
-              <motion.div
-                animate={{ y: [0, -15, 0], rotate: [-5, -3, -5] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-48 h-64 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl -translate-x-20 translate-y-10"
-              >
-                <div className="p-6 h-full flex flex-col justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-[#3DB7FF] flex items-center justify-center">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/images/hero1.png"
+                  alt="Femme avec un sourire éclatant"
+                  fill
+                  className="object-contain object-bottom"
+                  priority
+                  quality={95}
+                />
+              </div>
+            </motion.div>
+
+            {/* Floating Product */}
+            <motion.div
+              style={{ x: mousePosition.x * 2, y: mousePosition.y * 2 }}
+              animate={{ y: [0, -15, 0] }}
+              transition={{ y: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
+              className="absolute -left-10 top-1/4 w-[120px] h-[200px] z-30"
+            >
+              <Image
+                src="/images/product.png"
+                alt="Calcident Fresh"
+                width={120}
+                height={200}
+                className="object-contain drop-shadow-2xl"
+              />
+              <div className="absolute inset-0 bg-[#3DB7FF]/20 blur-3xl -z-10 rounded-full" />
+            </motion.div>
+
+            {/* Secondary Product */}
+            <motion.div
+              style={{ x: mousePosition.x * 1.5, y: mousePosition.y * 1.5 }}
+              animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+              transition={{ y: { duration: 5, repeat: Infinity, ease: "easeInOut" }, rotate: { duration: 6, repeat: Infinity } }}
+              className="absolute right-0 top-10 w-[100px] h-[180px] z-30"
+            >
+              <Image
+                src="/images/product pack.png"
+                alt="Calcident Pack"
+                width={100}
+                height={180}
+                className="object-contain drop-shadow-2xl"
+              />
+            </motion.div>
+
+            {/* Glass Card - Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="absolute bottom-10 left-0 lg:-left-10 z-40"
+            >
+              <div className="px-6 py-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1A78C8] to-[#3DB7FF] flex items-center justify-center">
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-bold text-lg">Fresh</p>
-                    <p className="text-white/60 text-sm">12h Fraîcheur</p>
+                    <p className="text-2xl font-black text-white">98%</p>
+                    <p className="text-sm text-white/70">Satisfaction Client</p>
                   </div>
                 </div>
-              </motion.div>
-
-              {/* Card 2 - Main */}
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-56 h-72 bg-gradient-to-br from-white to-[#F8FBFF] rounded-3xl shadow-2xl z-10"
-              >
-                <div className="p-8 h-full flex flex-col justify-between">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1A78C8] to-[#3DB7FF] flex items-center justify-center">
-                    <Star className="w-8 h-8 text-white fill-white" />
-                  </div>
-                  <div>
-                    <p className="text-[#3159B7] font-black text-2xl">CALCIDENT</p>
-                    <p className="text-[#1A78C8] font-semibold">Total Protection</p>
-                    <div className="flex gap-1 mt-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Card 3 */}
-              <motion.div
-                animate={{ y: [0, -10, 0], rotate: [5, 7, 5] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-48 h-64 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl translate-x-20 translate-y-10"
-              >
-                <div className="p-6 h-full flex flex-col justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-[#1A78C8] flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-lg">White</p>
-                    <p className="text-white/60 text-sm">Blancheur Éclat</p>
-                  </div>
-                </div>
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F8FBFF] to-transparent z-20 pointer-events-none" />
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F8FBFF] to-transparent z-40 pointer-events-none" />
     </section>
   )
 }

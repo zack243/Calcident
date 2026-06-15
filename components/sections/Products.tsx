@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, Shield, Leaf, ArrowRight, Check, Star } from 'lucide-react'
+import { Sparkles, Shield, ArrowRight, Check } from 'lucide-react'
+import Image from 'next/image'
 
 const products = [
   {
@@ -15,7 +16,7 @@ const products = [
     gradient: 'from-[#1A78C8] to-[#3DB7FF]',
     bgGradient: 'from-[#1A78C8]/10 to-[#3DB7FF]/5',
     badge: 'Best-Seller',
-    icon: Sparkles,
+    image: '/images/product.png',
   },
   {
     id: 2,
@@ -27,7 +28,7 @@ const products = [
     gradient: 'from-[#3159B7] to-[#1A78C8]',
     bgGradient: 'from-[#3159B7]/10 to-[#1A78C8]/5',
     badge: 'Nouveau',
-    icon: Star,
+    image: '/images/product pack.png',
   },
   {
     id: 3,
@@ -39,7 +40,7 @@ const products = [
     gradient: 'from-[#3DB7FF] to-[#1A78C8]',
     bgGradient: 'from-[#3DB7FF]/10 to-[#1A78C8]/5',
     badge: 'Famille',
-    icon: Shield,
+    image: '/images/Product Box .png',
   },
 ]
 
@@ -146,7 +147,7 @@ export default function Products() {
                 {/* Content */}
                 <div className="relative p-8">
                   {/* Badge */}
-                  <div className="absolute top-6 left-6">
+                  <div className="absolute top-6 left-6 z-10">
                     <span 
                       className="px-3 py-1 text-xs font-bold text-white rounded-full"
                       style={{ backgroundColor: product.color }}
@@ -155,18 +156,22 @@ export default function Products() {
                     </span>
                   </div>
 
-                  {/* Product Visual */}
-                  <div className="relative h-[220px] mb-6 flex items-center justify-center">
+                  {/* Product Image */}
+                  <div className="relative h-[280px] mb-6 flex items-center justify-center">
                     <motion.div
                       animate={{
                         y: hoveredProduct === product.id ? -10 : 0,
-                        scale: hoveredProduct === product.id ? 1.1 : 1,
+                        scale: hoveredProduct === product.id ? 1.05 : 1,
                       }}
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-32 h-48 rounded-2xl shadow-2xl flex items-center justify-center"
-                      style={{ background: `linear-gradient(135deg, ${product.color}, ${product.color}dd)` }}
+                      className="relative w-full h-full"
                     >
-                      <product.icon className="w-16 h-16 text-white" />
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-contain drop-shadow-2xl"
+                      />
                     </motion.div>
                     
                     {/* Glow behind product */}

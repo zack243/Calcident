@@ -75,16 +75,12 @@ export default function Benefits() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#F8FBFF] to-transparent" />
         <motion.div
-          animate={{ 
-            rotate: [0, 360],
-          }}
+          animate={{ rotate: [0, 360] }}
           transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
           className="absolute -top-40 -right-40 w-[600px] h-[600px] border border-[#1A78C8]/5 rounded-full"
         />
         <motion.div
-          animate={{ 
-            rotate: [360, 0],
-          }}
+          animate={{ rotate: [360, 0] }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
           className="absolute -bottom-40 -left-40 w-[500px] h-[500px] border border-[#3DB7FF]/5 rounded-full"
         />
@@ -93,7 +89,7 @@ export default function Benefits() {
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
-          {/* Left - Visual Section */}
+          {/* Left - Image Section with Real Photo */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -101,29 +97,27 @@ export default function Benefits() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative aspect-square rounded-[40px] overflow-hidden bg-gradient-to-br from-[#1A78C8] to-[#3DB7FF] shadow-2xl">
-              {/* Content */}
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="text-center">
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="w-32 h-32 mx-auto mb-6 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center"
-                  >
-                    <Sparkles className="w-16 h-16 text-white" />
-                  </motion.div>
-                  <p className="text-white text-2xl font-bold mb-2">Sourire Éclatant</p>
-                  <p className="text-white/80">La confiance en plus</p>
-                </div>
-              </div>
+            <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl">
+              {/* Real Image with Parallax */}
+              <motion.div style={{ scale: imageScale }} className="absolute inset-0">
+                <Image
+                  src="/images/Gros plan sourire.png"
+                  alt="Sourire éclatant avec Calcident"
+                  fill
+                  className="object-cover"
+                  quality={95}
+                />
+              </motion.div>
+              
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A78C8]/30 via-transparent to-transparent" />
               
               {/* Floating Badge */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{ y }}
                 className="absolute bottom-8 left-8 right-8"
               >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-6 shadow-xl">
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-6 shadow-xl">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1A78C8] to-[#3DB7FF] flex items-center justify-center">
                       <Award className="w-7 h-7 text-white" />

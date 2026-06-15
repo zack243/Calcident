@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Users, Baby, Smile, Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 
 const testimonials = [
   {
@@ -12,6 +13,7 @@ const testimonials = [
     role: 'Mère de 2 enfants',
     location: 'Casablanca',
     rating: 5,
+    image: '/images/Hero2.png',
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ const testimonials = [
     role: 'Mère de famille',
     location: 'Rabat',
     rating: 5,
+    image: '/images/Hero3.png',
   },
 ]
 
@@ -117,7 +120,7 @@ export default function Family() {
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
-          {/* Left - Testimonial Card */}
+          {/* Left - Testimonial Carousel with Real Images */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -125,16 +128,33 @@ export default function Family() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative bg-gradient-to-br from-[#3159B7] to-[#1A78C8] rounded-[40px] overflow-hidden shadow-2xl p-8 md:p-12">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#3DB7FF] rounded-full blur-3xl" />
-              </div>
+            <div className="relative aspect-[4/3] rounded-[40px] overflow-hidden shadow-2xl">
+              <AnimatePresence mode="wait">
+                {testimonials.map((testimonial, index) => (
+                  index === activeTestimonial && (
+                    <motion.div
+                      key={testimonial.id}
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.6 }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.author}
+                        fill
+                        className="object-cover"
+                        quality={95}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#3159B7]/80 via-[#3159B7]/20 to-transparent" />
+                    </motion.div>
+                  )
+                ))}
+              </AnimatePresence>
 
-              <div className="relative">
-                <Quote className="w-16 h-16 text-white/20 mb-6" />
-                
+              {/* Quote Card Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-8">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTestimonial}
@@ -143,53 +163,49 @@ export default function Family() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <p className="text-white text-xl md:text-2xl leading-relaxed mb-8">
-                      "{testimonials[activeTestimonial].quote}"
+                    <Quote className="w-10 h-10 text-white/30 mb-4" />
+                    <p className="text-white text-lg leading-relaxed mb-4 line-clamp-3">
+                      {testimonials[activeTestimonial].quote}
                     </p>
-                    
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-xl">
-                        {testimonials[activeTestimonial].author[0]}
+                      <div className="flex gap-1">
+                        {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        ))}
                       </div>
-                      <div>
-                        <p className="text-white font-bold text-lg">{testimonials[activeTestimonial].author}</p>
-                        <p className="text-white/70 text-sm">{testimonials[activeTestimonial].role} • {testimonials[activeTestimonial].location}</p>
-                        <div className="flex gap-1 mt-1">
-                          {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
-                            <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                          ))}
-                        </div>
-                      </div>
+                      <span className="text-white/80 text-sm">
+                        {testimonials[activeTestimonial].author}, {testimonials[activeTestimonial].location}
+                      </span>
                     </div>
                   </motion.div>
                 </AnimatePresence>
+              </div>
 
-                {/* Navigation */}
-                <div className="flex items-center gap-4 mt-8">
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevTestimonial}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={nextTestimonial}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              {/* Dots */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {testimonials.map((_, index) => (
                   <button
-                    onClick={prevTestimonial}
-                    className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </button>
-                  <button
-                    onClick={nextTestimonial}
-                    className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </button>
-                  <div className="flex gap-2 ml-auto">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveTestimonial(index)}
-                        className={`w-2 h-2 rounded-full transition-all ${
-                          index === activeTestimonial ? 'bg-white w-6' : 'bg-white/50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
+                    key={index}
+                    onClick={() => setActiveTestimonial(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === activeTestimonial ? 'bg-white w-6' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </motion.div>
