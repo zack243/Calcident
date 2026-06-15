@@ -1,44 +1,123 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 
+const products = [
+  {
+    id: 1,
+    name: 'Calcident Fresh',
+    subtitle: 'Fraîcheur Intense',
+    image: '/images/product.png',
+    badge: 'Best-Seller',
+  },
+  {
+    id: 2,
+    name: 'Calcident Pack',
+    subtitle: 'Économique',
+    image: '/images/product pack.png',
+    badge: 'Nouveau',
+  },
+  {
+    id: 3,
+    name: 'Calcident Box',
+    subtitle: 'Famille',
+    image: '/images/Product Box .png',
+    badge: 'Famille',
+  },
+]
+
 export default function Hero() {
+  const [activeIndex, setActiveIndex] = useState(1)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 10,
-        y: (e.clientY / window.innerHeight - 0.5) * 10,
+        x: (e.clientX / window.innerWidth - 0.5) * 15,
+        y: (e.clientY / window.innerHeight - 0.5) * 15,
       })
     }
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  return (
-    <section id="accueil" className="relative h-screen min-h-[700px] max-h-[900px] overflow-hidden bg-gradient-to-br from-[#F0F9FF] via-[#E8F4FC] to-[#F5FBFF]">
-      
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[500px] bg-[#3DB7FF]/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-1/2 w-[400px] h-[300px] bg-[#1A78C8]/5 blur-[100px] rounded-full pointer-events-none" />
+  // Auto-rotate carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % products.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
 
-      {/* Main Content - Split Layout */}
-      <div className="relative z-10 h-full max-w-[1600px] mx-auto flex">
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % products.length)
+  }, [])
+
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + products.length) % products.length)
+  }, [])
+
+  const getSlideStyle = (index: number) => {
+    const diff = ((index - activeIndex + products.length) % products.length)
+    const adjustedDiff = diff > products.length / 2 ? diff - products.length : diff
+
+    if (adjustedDiff === 0) {
+      // Center card - dominant
+      return {
+        transform: 'translateX(0) scale(1)',
+        zIndex: 30,
+        opacity: 1,
+      }
+    } else if (adjustedDiff === 1 || adjustedDiff === -2) {
+      // Right card
+      return {
+        transform: 'translateX(85%) scale(0.84)',
+        zIndex: 20,
+        opacity: 0.7,
+      }
+    } else {
+      // Left card
+      return {
+        transform: 'translateX(-85%) scale(0.84)',
+        zIndex: 20,
+        opacity: 0.7,
+      }
+    }
+  }
+
+  return (
+    <section id="accueil" className="relative h-screen min-h-[700px] max-h-[900px] overflow-hidden">
+      
+      {/* BACKGROUND - Fond hero.png visible */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/Fond hero.png"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          quality={100}
+        />
+        {/* Voile blanc très léger */}
+        <div className="absolute inset-0 bg-white/10" />
+      </div>
+
+      {/* MAIN CONTENT - Split 45% / 55% */}
+      <div className="relative z-10 h-full flex">
         
-        {/* LEFT SIDE - 50% - New hero image grande */}
-        <div className="w-[50%] h-full relative flex items-end">
+        {/* LEFT SIDE - 45% - Image lifestyle grande */}
+        <div className="w-[45%] h-full relative flex items-end justify-center">
           <motion.div
-            style={{ x: mousePosition.x * -0.5 }}
+            style={{ x: mousePosition.x * -0.3 }}
             className="absolute inset-0 flex items-end justify-center"
           >
-            <div className="relative w-[95%] h-[90%]">
+            <div className="relative w-full h-[92%]">
               <Image
-                src="/images/New hero.png"
-                alt="Femme avec un sourire éclatant et produit Calcident"
+                src="/images/New hero2.png"
+                alt="Femme avec un sourire éclatant"
                 fill
                 className="object-contain object-bottom"
                 priority
@@ -47,45 +126,119 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Subtle glow behind the person */}
-          <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[350px] h-[200px] bg-[#3DB7FF]/20 blur-[80px] rounded-full pointer-events-none" />
+          {/* Glow subtil */}
+          <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[300px] h-[150px] bg-[#3DB7FF]/20 blur-[60px] rounded-full pointer-events-none" />
         </div>
 
-        {/* RIGHT SIDE - 50% - Product + CTA */}
-        <div className="w-[50%] h-full flex flex-col justify-center px-12 lg:px-16">
+        {/* RIGHT SIDE - 55% - Carousel 3D + CTA */}
+        <div className="w-[55%] h-full flex flex-col justify-center px-10 lg:px-14">
           
-          {/* Product Image - Grande et dominante */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative w-full h-[350px] mb-8"
-          >
-            <motion.div
-              style={{ x: mousePosition.x * 0.3, y: mousePosition.y * 0.3 }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full h-full"
-            >
-              <Image
-                src="/images/product pack.png"
-                alt="Calcident Pack Premium"
-                fill
-                className="object-contain drop-shadow-2xl"
-                priority
-              />
-            </motion.div>
-            
-            {/* Glow behind product */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#1A78C8]/15 blur-[60px] rounded-full pointer-events-none" />
-          </motion.div>
+          {/* CAROUSEL 3D - Structure Bom Dia */}
+          <div className="relative h-[380px] mb-6" style={{ perspective: '1000px' }}>
+            <div className="absolute inset-0 flex items-center justify-center">
+              {products.map((product, index) => {
+                const style = getSlideStyle(index)
+                const isActive = index === activeIndex
+                
+                return (
+                  <motion.div
+                    key={product.id}
+                    initial={false}
+                    animate={{
+                      transform: style.transform,
+                      opacity: style.opacity,
+                      zIndex: style.zIndex,
+                    }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute cursor-pointer"
+                    onClick={() => setActiveIndex(index)}
+                  >
+                    {/* Card style Bom Dia */}
+                    <div 
+                      className={`relative rounded-3xl overflow-hidden transition-all duration-500 ${
+                        isActive ? 'shadow-2xl' : 'shadow-lg'
+                      }`}
+                      style={{
+                        width: isActive ? '200px' : '170px',
+                        height: isActive ? '320px' : '270px',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,249,255,0.9) 100%)',
+                        boxShadow: isActive 
+                          ? '0 25px 60px rgba(26, 120, 200, 0.25), 0 10px 20px rgba(0,0,0,0.1)'
+                          : '0 15px 40px rgba(0,0,0,0.1)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255,255,255,0.5)',
+                      }}
+                    >
+                      {/* Badge */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="px-2.5 py-1 text-[10px] font-bold text-white rounded-full bg-[#1A78C8]">
+                          {product.badge}
+                        </span>
+                      </div>
 
-          {/* CTA Card - Remonté et moins large */}
+                      {/* Product Image */}
+                      <div className="absolute inset-0 flex items-center justify-center p-4 pt-10">
+                        <motion.div
+                          animate={isActive ? { y: [0, -5, 0] } : {}}
+                          transition={{ duration: 3, repeat: Infinity }}
+                          className="relative w-full h-[70%]"
+                        >
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-contain drop-shadow-xl"
+                          />
+                        </motion.div>
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-white/95 to-transparent">
+                        <p className="font-bold text-[#3159B7] text-sm">{product.name}</p>
+                        <p className="text-xs text-gray-500">{product.subtitle}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-[#3159B7] shadow-lg hover:bg-white transition-all z-40"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-[#3159B7] shadow-lg hover:bg-white transition-all z-40"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 mb-8">
+            {products.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === activeIndex 
+                    ? 'w-8 bg-[#1A78C8]' 
+                    : 'w-2 bg-[#1A78C8]/30'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* CTA CARD - Sous le carousel */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/60 max-w-[400px] mx-auto lg:mx-0"
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/60 max-w-[420px]"
           >
             {/* Badge */}
             <div className="flex items-center gap-2 mb-3">
@@ -94,7 +247,7 @@ export default function Hero() {
               </span>
             </div>
 
-            <h2 className="text-xl lg:text-2xl font-black text-[#3159B7] mb-2 leading-tight">
+            <h2 className="text-2xl font-black text-[#3159B7] mb-2 leading-tight">
               Retrouvez un sourire éclatant
             </h2>
             <p className="text-gray-600 text-sm mb-5">
@@ -118,25 +271,6 @@ export default function Hero() {
                 En savoir plus
               </motion.button>
             </div>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="flex gap-8 mt-8 ml-2"
-          >
-            {[
-              { value: '12h', label: 'Fraîcheur' },
-              { value: '98%', label: 'Satisfaction' },
-              { value: '5M+', label: 'Clients' },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-2xl font-black text-[#3159B7]">{stat.value}</p>
-                <p className="text-xs text-gray-500">{stat.label}</p>
-              </div>
-            ))}
           </motion.div>
         </div>
       </div>
