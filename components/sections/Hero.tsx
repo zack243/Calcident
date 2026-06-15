@@ -117,32 +117,31 @@ export default function Hero() {
       {/* MAIN CONTENT - Split 45% / 55% */}
       <div className="relative z-10 h-full flex">
         
-        {/* LEFT SIDE - 45% - Image lifestyle redimensionnée et alignée */}
-        <div className="w-[45%] h-full relative flex items-end justify-center pt-[15%]">
+        {/* LEFT SIDE - 40% - Image femme plus petite et élégante */}
+        <div className="w-[40%] h-full relative flex items-end justify-center">
           <motion.div
-            style={{ x: mousePosition.x * -0.3 }}
-            className="absolute inset-0 flex items-start justify-center pt-[12%]"
+            style={{ x: mousePosition.x * -0.2 }}
+            className="absolute inset-0 flex items-end justify-center pb-[5%]"
           >
-            <div className="relative w-[100%] h-[82%]">
+            <div className="relative w-[85%] h-[70%]">
               <Image
                 src="/images/New hero2.png"
                 alt="Femme avec un sourire éclatant"
                 fill
-                className="object-cover object-top"
-                style={{ objectPosition: 'center 12%' }}
+                className="object-contain object-bottom"
+                style={{ objectPosition: 'center 30%' }}
                 priority
                 quality={95}
               />
             </div>
           </motion.div>
 
-          {/* Glow subtil + accent rouge discret */}
-          <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[300px] h-[150px] bg-[#3DB7FF]/20 blur-[60px] rounded-full pointer-events-none" />
-          <div className="absolute top-[20%] right-[15%] w-[80px] h-[80px] bg-[#E53935]/10 blur-[40px] rounded-full pointer-events-none" />
+          {/* Glow subtil derrière la femme */}
+          <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-[250px] h-[200px] bg-[#3DB7FF]/15 blur-[80px] rounded-full pointer-events-none" />
         </div>
 
-        {/* RIGHT SIDE - 55% - Carousel 3D + CTA centrés */}
-        <div className="w-[55%] h-full flex flex-col justify-center items-center px-8 lg:px-12">
+        {/* RIGHT SIDE - 60% - Carousel 3D + CTA centrés */}
+        <div className="w-[60%] h-full flex flex-col justify-center items-center px-8 lg:px-12">
           
           {/* CAROUSEL 3D - Centré */}
           <div className="relative h-[360px] w-full max-w-[500px] mb-3" style={{ perspective: '1000px' }}>
