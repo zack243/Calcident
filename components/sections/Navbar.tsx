@@ -64,11 +64,7 @@ export default function Navbar() {
         initial={{ y: 0 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-white/90 backdrop-blur-lg shadow-lg'
-            : 'bg-transparent'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -80,7 +76,7 @@ export default function Navbar() {
                 scrollToSection('#accueil')
               }}
             >
-              <Logo size="md" />
+              <Logo size="lg" />
             </a>
 
             {/* Desktop Navigation */}
@@ -93,11 +89,9 @@ export default function Navbar() {
                     e.preventDefault()
                     scrollToSection(link.href)
                   }}
-                  className={`relative text-sm font-medium transition-colors hover:text-calcident-primary ${
+                  className={`relative text-sm font-medium transition-colors hover:text-[#1A78C8] ${
                     activeSection === link.href.slice(1)
-                      ? 'text-calcident-primary'
-                      : scrolled
-                      ? 'text-gray-600'
+                      ? 'text-[#1A78C8]'
                       : 'text-gray-700'
                   }`}
                 >
